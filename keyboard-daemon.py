@@ -10,18 +10,10 @@ import subprocess
 import sys
 import time
 import xmlrpc.client
-import logging
 
-logging.basicConfig( filename="/var/log/keyboard-daemon.log",
-                     filemode='w',
-                     level=logging.DEBUG,
-                     format= '%(asctime)s - %(levelname)s - %(message)s',
-                   )
-
+chroma = xmlrpc.client.ServerProxy('http://localhost:16767')
 
 def main():
-    time.sleep(1)
-    chroma = xmlrpc.client.ServerProxy('http://localhost:16767')
     keyboard.add_hotkey('shift+alt', on_shiftalt_release, trigger_on_release=True)
     keyboard.on_press(block_switcher)
     keyboard.add_hotkey('windows', light_up_default, args=["windows"], trigger_on_release=True)
@@ -75,8 +67,5 @@ def block_switcher(c):
         light_up_windows()
 
 
-try:
-    main()
-except:
-    logging.exception("Couldn't run keyboard daemon!")
+main()
 

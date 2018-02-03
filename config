@@ -198,12 +198,6 @@ bindsym Shift+Print exec escrotum -C -s
 
 exec xset r rate 172 60
 
-bindsym XF86AudioPlay exec clementine -t
-bindsym XF86AudioNext exec clementine -f
-bindsym XF86AudioPrev exec clementine --restart-or-previous
-
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +2%
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -2% 
 bindsym XF86MonBrightnessUp exec light -A 1
 bindsym XF86MonBrightnessDown exec light -U 1
 

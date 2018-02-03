@@ -3,22 +3,13 @@ from xmlrpc.server import SimpleXMLRPCServer
 from xmlrpc.server import SimpleXMLRPCRequestHandler
 import colorsys
 import random
-import logging
-
 from openrazer.client import DeviceManager
 from openrazer.client import constants as razer_constants
+
 device_manager = DeviceManager()
-
-
-logging.basicConfig( filename="chroma-daemon.log",
-                     filemode='w',
-                     level=logging.DEBUG,
-                     format= '%(asctime)s - %(levelname)s - %(message)s',
-                   )
+device_manager.sync_effects = False
 
 def main():
-    logging.info("Found {} Razer devices".format(len(device_manager.devices)))
-    device_manager.sync_effects = False
     class RequestHandler(SimpleXMLRPCRequestHandler):
         rpc_paths = ('/RPC2',)
 
@@ -56,7 +47,4 @@ def wave():
         device.fx.wave(razer_constants.WAVE_RIGHT)
 
 
-try:
-    main()
-except:
-    logging.exception("Couldn't run chroma daemon!")
+main()

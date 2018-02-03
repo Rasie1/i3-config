@@ -18,43 +18,46 @@ def main():
     keyboard.on_press(block_switcher)
     keyboard.add_hotkey('windows', light_up_default, args=["windows"], trigger_on_release=True)
     keyboard.add_hotkey('ctrl', light_up_default, args=["ctrl"], trigger_on_release=True)
+    keyboard.add_hotkey('shift', light_up_default, args=["shift"], trigger_on_release=True)
+    keyboard.add_hotkey('alt', light_up_default, args=["alt"], trigger_on_release=True)
     
     keyboard.wait()
 
-# [0] - will switch lang
-# [1] - us/ru
-lang = [True, False]
+will_switch_lang = [True]
 # [0] - ctrl
 # [1] - windows
-keys = [False, False]
+# [2] - shift
+# [3] - alt
+keys = [False, False, False, False]
 def light_up_default(key):
-    if keys[0] and key == "ctrl" or keys[1] and key == "windows":
+    if keys[0] and key == "ctrl" or keys[1] and key == "windows" or keys[2] and key == "shift" or keys[3] and key == "alt":
         keys[0] = False
         keys[1] = False
-        chroma.wave()
-
-
-def light_up_ctrl():
-    chroma.light_ctrl()
-def light_up_windows():
-    chroma.light_super()
+        keys[2] = False
+        keys[3] = False
+        chroma.light_default()
 
 def on_shiftalt_release():
-    if lang[0]:
-        lang[1] = not lang[1]
-        chroma.switchlang(lang[1])
+    if will_switch_lang[0]:
+        chroma.switchlang()
     else:
-        lang[0] = True
+        will_switch_lang[0] = True
 
 def block_switcher(c):
     if c.name != "shift" and c.name != "alt" and keyboard.is_pressed("shift+alt"):
-        lang[0] = False
-    if c.name == "ctrl" and not any(keys):
+        will_switch_lang[0] = False
+    if c.name == "shift" and not any(keys):
+        keys[2] = True
+        chroma.light_shift()
+    elif c.name == "ctrl" and not any(keys):
         keys[0] = True
-        light_up_ctrl()
+        chroma.light_ctrl()
+    elif c.name == "alt" and not any(keys):
+        keys[3] = True
+        chroma.light_alt()
     elif c.name == "windows" and not any(keys):
         keys[1] = True
-        light_up_windows()
+        chroma.light_super()
 
 
 main()

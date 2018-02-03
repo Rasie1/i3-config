@@ -208,4 +208,3 @@ bindsym XF86MonBrightnessUp exec light -A 1
 bindsym XF86MonBrightnessDown exec light -U 1
 
 
-bindsym Shift+Insert exec --no-startup-id ~/.config/i3/language.sh

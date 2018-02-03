@@ -1,3 +1,4 @@
+#!/usr/bin/python
 import keyboard
 import colorsys
 import random
@@ -7,12 +8,20 @@ import os
 import pwd
 import subprocess
 import sys
-
+import time
 import xmlrpc.client
+import logging
 
-chroma = xmlrpc.client.ServerProxy('http://localhost:16767')
+logging.basicConfig( filename="/var/log/keyboard-daemon.log",
+                     filemode='w',
+                     level=logging.DEBUG,
+                     format= '%(asctime)s - %(levelname)s - %(message)s',
+                   )
+
 
 def main():
+    time.sleep(1)
+    chroma = xmlrpc.client.ServerProxy('http://localhost:16767')
     keyboard.add_hotkey('shift+alt', on_shiftalt_release, trigger_on_release=True)
     keyboard.on_press(block_switcher)
     keyboard.add_hotkey('windows', light_up_default, args=["windows"], trigger_on_release=True)
@@ -34,14 +43,12 @@ lang = [True, False]
 keys = [False, False]
 def light_up_default(key):
     if keys[0] and key == "ctrl" or keys[1] and key == "windows":
-        print("default")
         keys[0] = False
         keys[1] = False
         chroma.wave()
 
 
 def light_up_ctrl():
-    print("ctrl")
     chroma.random_keys()
 def light_up_windows():
     chroma.random_keys()
@@ -68,6 +75,8 @@ def block_switcher(c):
         light_up_windows()
 
 
-
-if __name__ == '__main__':
+try:
     main()
+except:
+    logging.exception("Couldn't run keyboard daemon!")
+

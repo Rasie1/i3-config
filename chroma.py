@@ -6,9 +6,11 @@ import random
 import subprocess
 from openrazer.client import DeviceManager
 from openrazer.client import constants as razer_constants
+import i3
 
 device_manager = DeviceManager()
 device_manager.sync_effects = False
+i3socket = i3.Socket()
 
 def main():
     class RequestHandler(SimpleXMLRPCRequestHandler):
@@ -76,19 +78,17 @@ def clear_light(device):
         for col in range(cols):
             device.fx.advanced.matrix[row, col] = black
 def fill_workspaces(device):
-    device.fx.advanced.matrix[1,1] = darkgreen # numbers
-    device.fx.advanced.matrix[1,2] = white 
-    device.fx.advanced.matrix[1,3] = darkgreen
-    device.fx.advanced.matrix[1,4] = green
-    device.fx.advanced.matrix[1,5] = darkgreen
-    device.fx.advanced.matrix[1,6] = green
-    device.fx.advanced.matrix[1,7] = green
-    device.fx.advanced.matrix[1,8] = darkgreen
-    device.fx.advanced.matrix[1,9] = darkgreen
-    device.fx.advanced.matrix[1,10] = darkgreen
-    device.fx.advanced.matrix[1,11] = darkgreen
-    device.fx.advanced.matrix[1,12] = darkgreen
-    device.fx.advanced.matrix[1,13] = darkgreen
+    workspaces = i3socket.get("get_workspaces")
+    for i in range(1, 14):
+        device.fx.advanced.matrix[1, i] = darkgreen
+    for ws in workspaces:
+        if ws['urgent']:
+            color = red
+        elif ws['visible']:
+            color = white
+        else:
+            color = green
+        device.fx.advanced.matrix[1, ws['num'] + 1] = color
 
 def light_ctrl(remember_rightness):
     device = device_manager.devices[0]

@@ -90,8 +90,10 @@ def fill_workspaces(device):
     device.fx.advanced.matrix[1,12] = darkgreen
     device.fx.advanced.matrix[1,13] = darkgreen
 
-def light_ctrl():
+def light_ctrl(remember_rightness):
     device = device_manager.devices[0]
+    if remember_rightness:
+        previous_brightness[0] = device.brightness
     clear_light(device)
 
     device.fx.advanced.matrix[1,2] = green 
@@ -146,8 +148,10 @@ def light_ctrl():
 
     device.brightness = 100
 
-def light_super():
+def light_super(remember_rightness):
     device = device_manager.devices[0]
+    if remember_rightness:
+        previous_brightness[0] = device.brightness
     clear_light(device)
     
     fill_workspaces(device)
@@ -176,8 +180,10 @@ def light_super():
     device.fx.advanced.draw()
     device.brightness = 100
 
-def light_shift():
+def light_shift(remember_rightness):
     device = device_manager.devices[0]
+    if remember_rightness:
+        previous_brightness[0] = device.brightness
     clear_light(device)
 
     device.fx.advanced.matrix[0,13] = green
@@ -248,8 +254,10 @@ def light_shift():
     device.fx.advanced.draw()
     device.brightness = 100
 
-def light_alt():
+def light_alt(remember_rightness):
     device = device_manager.devices[0]
+    if remember_rightness:
+        previous_brightness[0] = device.brightness
     clear_light(device)
     device.fx.advanced.matrix[2,1] = green # tab
     device.fx.advanced.matrix[4,1] = language_dependent_color() 
@@ -380,6 +388,7 @@ def light_ctrlshift():
     device.fx.advanced.matrix[3,5] = green
     device.fx.advanced.matrix[3,6] = green
     device.fx.advanced.matrix[4,1] = white 
+    device.fx.advanced.matrix[4,3] = green 
     device.fx.advanced.matrix[4,5] = yellow 
     device.fx.advanced.matrix[4,6] = yellow 
     device.fx.advanced.matrix[4,15] = white

@@ -27,17 +27,36 @@ will_switch_lang = [True]
 keymap = {'ctrl': 0, 'windows': 1, 'shift': 2, 'alt': 3}
 keys = [False, False, False, False]
 def light_up_default(key):
-    print(key + " release")
-    print(keys[0])
-    print(keys[1])
-    print(keys[2])
-    print(keys[3])
-    if keys[0] and key == "ctrl" or keys[1] and key == "windows" or keys[2] and key == "shift" or keys[3] and key == "alt":
-        keys[0] = False
-        keys[1] = False
-        keys[2] = False
-        keys[3] = False
+    keynum = keymap[key]
+    keys[keynum] = False
+    
+    if keynum != 2 and keynum != 3 and keyboard.is_pressed("shift+alt"):
+        will_switch_lang[0] = False
+
+    if not keys[0] and not keys[1] and not keys[2] and not keys[3]:
         chroma.light_default()
+    elif keys[0] and not keys[1] and not keys[2] and not keys[3]:
+        chroma.light_ctrl(False)
+    elif not keys[0] and keys[1] and not keys[2] and not keys[3]:
+        chroma.light_super(False)
+    elif not keys[0] and not keys[1] and keys[2] and not keys[3]:
+        chroma.light_shift(False)
+    elif not keys[0] and not keys[1] and not keys[2] and keys[3]:
+        chroma.light_alt(False)
+    elif keys[0] and keys[1] and not keys[2] and not keys[3]:
+        chroma.light_ctrlsuper()
+    elif keys[0] and not keys[1] and keys[2] and not keys[3]:
+        chroma.light_ctrlshift()
+    elif keys[0] and not keys[1] and not keys[2] and keys[3]:
+        chroma.light_ctrlalt()
+    elif not keys[0] and keys[1] and keys[2] and not keys[3]:
+        chroma.light_shiftsuper()
+    elif not keys[0] and not keys[1] and keys[2] and keys[3]:
+        chroma.light_altsuper()
+    elif keys[0] and keys[1] and keys[2] and not keys[3]:
+        chroma.light_ctrlshiftsuper()
+    elif keys[0] and keys[1] and keys[2] and not keys[3]:
+        chroma.light_ctrlaltshift()
 
 def on_shiftalt_release():
     if will_switch_lang[0]:
@@ -51,20 +70,15 @@ def on_press_action(c):
     keynum = keymap[c.name]
     if keynum != 2 and keynum != 3 and keyboard.is_pressed("shift+alt"):
         will_switch_lang[0] = False
-    print(c.name)
-    print(keys[0])
-    print(keys[1])
-    print(keys[2])
-    print(keys[3])
     if not keys[0] and not keys[1] and not keys[2] and not keys[3]:
         if keynum == 0:
-            chroma.light_ctrl()
+            chroma.light_ctrl(True)
         elif keynum == 1:
-            chroma.light_super()
+            chroma.light_super(True)
         elif keynum == 2:
-            chroma.light_shift()
+            chroma.light_shift(True)
         elif keynum == 3:
-            chroma.light_alt()
+            chroma.light_alt(True)
     elif keys[0] and not keys[1] and not keys[2] and not keys[3]:
         if keynum == 1:
             chroma.light_ctrlsuper()

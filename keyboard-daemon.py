@@ -15,7 +15,7 @@ chroma = xmlrpc.client.ServerProxy('http://localhost:16767')
 
 def main():
     keyboard.add_hotkey('shift+alt', on_shiftalt_release, trigger_on_release=True)
-    keyboard.on_press(block_switcher)
+    keyboard.on_press(on_press_action)
     keyboard.add_hotkey('windows', light_up_default, args=["windows"], trigger_on_release=True)
     keyboard.add_hotkey('ctrl', light_up_default, args=["ctrl"], trigger_on_release=True)
     keyboard.add_hotkey('shift', light_up_default, args=["shift"], trigger_on_release=True)
@@ -43,9 +43,15 @@ def on_shiftalt_release():
     else:
         will_switch_lang[0] = True
 
-def block_switcher(c):
+def on_press_action(c):
     if c.name != "shift" and c.name != "alt" and keyboard.is_pressed("shift+alt"):
         will_switch_lang[0] = False
+
+    if c.name == "shift" and keys[0] == True and keys[1] == False and keys[2] == False and keys[3] == False or \
+       c.name == "ctrl" and keys[0] == False and keys[1] == False and keys[2] == True and keys[3] == False:
+        keys[0] == True
+        keys[2] == True
+        chroma.light_ctrlshift()
     if c.name == "shift" and not any(keys):
         keys[2] = True
         chroma.light_shift()

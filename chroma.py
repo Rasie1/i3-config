@@ -174,6 +174,8 @@ def light_super(remember_brightness):
     clear_light(device)
     
     fill_workspaces(device)
+    device.fx.advanced.matrix[0,9] = white
+    device.fx.advanced.matrix[0,10] = white
     device.fx.advanced.matrix[2,2] = red # q
     device.fx.advanced.matrix[2,3] = green # w
     device.fx.advanced.matrix[2,6] = green # t

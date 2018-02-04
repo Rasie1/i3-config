@@ -7,6 +7,7 @@ import subprocess
 from openrazer.client import DeviceManager
 from openrazer.client import constants as razer_constants
 import i3
+from threading import Thread, Lock
 
 device_manager = DeviceManager()
 device_manager.sync_effects = False
@@ -43,6 +44,7 @@ def main():
 
 
 red = (255, 0, 0)
+greenplus = (60, 255, 20)
 green = (0, 255, 0)
 yellow = (255, 255, 0)
 darkgreen = (0, 10, 0)
@@ -56,9 +58,30 @@ def language_dependent_color():
     else:
         return magenta
 
+brightness_mutex = Lock()
 previous_brightness = [40]
 language_us = [True]
 subprocess.call(["setxkbmap", "us"])
+
+def set_max_brightness(device, remember_brightness):
+    # brightness_mutex.acquire()
+    # try:
+    #     if remember_brightness:
+    #         if device.brightness == 0 and previous_brightness[0] == 0:
+    #             time.sleep(0.1)
+    #         previous_brightness[0] = device.brightness
+    #     device.brightness = 100
+    # finally:
+    #     brightness_mutex.release()
+    pass
+
+def set_brightness_back(device):
+    # brightness_mutex.acquire()
+    # try:
+    #     device.brightness = previous_brightness[0]
+    # finally:
+    #     brightness_mutex.release()
+    pass
 
 def switchlang():
     if language_us[0]:
@@ -87,13 +110,11 @@ def fill_workspaces(device):
         elif ws['visible']:
             color = white
         else:
-            color = green
+            color = yellow
         device.fx.advanced.matrix[1, ws['num'] + 1] = color
 
-def light_ctrl(remember_rightness):
+def light_ctrl(remember_brightness):
     device = device_manager.devices[0]
-    if remember_rightness:
-        previous_brightness[0] = device.brightness
     clear_light(device)
 
     device.fx.advanced.matrix[1,2] = green 
@@ -146,12 +167,10 @@ def light_ctrl(remember_rightness):
     device.fx.advanced.matrix[5,15] = green # arrow
     device.fx.advanced.draw()
 
-    device.brightness = 100
+    set_max_brightness(device, remember_brightness)
 
-def light_super(remember_rightness):
+def light_super(remember_brightness):
     device = device_manager.devices[0]
-    if remember_rightness:
-        previous_brightness[0] = device.brightness
     clear_light(device)
     
     fill_workspaces(device)
@@ -178,12 +197,10 @@ def light_super(remember_rightness):
     device.fx.advanced.matrix[5,14] = green # arrow
     device.fx.advanced.matrix[5,15] = green # arrow
     device.fx.advanced.draw()
-    device.brightness = 100
+    set_max_brightness(device, remember_brightness)
 
-def light_shift(remember_rightness):
+def light_shift(remember_brightness):
     device = device_manager.devices[0]
-    if remember_rightness:
-        previous_brightness[0] = device.brightness
     clear_light(device)
 
     device.fx.advanced.matrix[0,13] = green
@@ -252,12 +269,10 @@ def light_shift(remember_rightness):
     device.fx.advanced.matrix[5,14] = green # arrow
     device.fx.advanced.matrix[5,15] = green # arrow
     device.fx.advanced.draw()
-    device.brightness = 100
+    set_max_brightness(device, remember_brightness)
 
-def light_alt(remember_rightness):
+def light_alt(remember_brightness):
     device = device_manager.devices[0]
-    if remember_rightness:
-        previous_brightness[0] = device.brightness
     clear_light(device)
     device.fx.advanced.matrix[2,1] = green # tab
     device.fx.advanced.matrix[4,1] = language_dependent_color() 
@@ -271,7 +286,7 @@ def light_alt(remember_rightness):
     device.fx.advanced.matrix[5,12] = green # arrow
     device.fx.advanced.matrix[5,15] = green # arrow
     device.fx.advanced.draw()
-    device.brightness = 100
+    set_max_brightness(device, remember_brightness)
 
 def light_altshift():
     device = device_manager.devices[0]
@@ -300,9 +315,7 @@ def light_altshift():
     device.fx.advanced.matrix[5,15] = green # arrow
     device.fx.advanced.draw()
 
-    device.fx.advanced.draw()
-
-    device.brightness = 100
+    set_max_brightness(device, False)
 
 def light_altsuper():
     device = device_manager.devices[0]
@@ -339,36 +352,31 @@ def light_shiftsuper():
     device.fx.advanced.matrix[5,14] = green # arrow
     device.fx.advanced.matrix[5,15] = green # arrow
     device.fx.advanced.draw()
-
-    device.brightness = 100
+    set_max_brightness(device, False)
 
 def light_ctrlshiftsuper():
     device = device_manager.devices[0]
     clear_light(device)
     light_unsupported()
-
-    device.brightness = 100
+    set_max_brightness(device, False)
 
 def light_ctrlsuper():
     device = device_manager.devices[0]
     clear_light(device)
     light_unsupported()
-
-    device.brightness = 100
+    set_max_brightness(device, False)
 
 def light_ctrlalt():
     device = device_manager.devices[0]
     clear_light(device)
     light_unsupported()
-
-    device.brightness = 100
+    set_max_brightness(device, False)
 
 def light_ctrlaltshift():
     device = device_manager.devices[0]
     clear_light(device)
     light_unsupported()
-
-    device.brightness = 100
+    set_max_brightness(device, False)
 
 def light_ctrlshift():
     device = device_manager.devices[0]
@@ -404,12 +412,11 @@ def light_ctrlshift():
     device.fx.advanced.matrix[5,14] = green # arrow
     device.fx.advanced.matrix[5,15] = green # arrow
     device.fx.advanced.draw()
-
-    device.brightness = 100
+    set_max_brightness(device, False)
 
 def light_default():
     device = device_manager.devices[0]
-    device.brightness = previous_brightness[0]
+    set_brightness_back(device)
     wave()
 
 def light_unsupported():

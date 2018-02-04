@@ -85,10 +85,10 @@ def set_brightness_back(device):
 
 def switchlang():
     if language_us[0]:
-        language = "ru"
+        language = "ru,us"
         language_us[0] = False
     else:
-        language = "us"
+        language = "us,ru"
         language_us[0] = True
     subprocess.call(["setxkbmap", language])
 

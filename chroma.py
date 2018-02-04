@@ -111,7 +111,7 @@ def fill_workspaces(device):
             color = white
         else:
             color = yellow
-        device.fx.advanced.matrix[1, ws['num'] + 1] = color
+        device.fx.advanced.matrix[1, ws['num']] = color
 
 def light_ctrl(remember_brightness):
     device = device_manager.devices[0]
@@ -140,7 +140,7 @@ def light_ctrl(remember_brightness):
     device.fx.advanced.matrix[2,12] = green # p
     device.fx.advanced.matrix[2,13] = green # p
     device.fx.advanced.matrix[3,2] = yellow # a
-    device.fx.advanced.matrix[3,3] = yellow # s
+    device.fx.advanced.matrix[3,3] = magenta # s
     device.fx.advanced.matrix[3,4] = green # d
     device.fx.advanced.matrix[3,5] = yellow # f
     device.fx.advanced.matrix[3,6] = green # g
@@ -181,6 +181,7 @@ def light_super(remember_brightness):
     device.fx.advanced.matrix[2,6] = green # t
     device.fx.advanced.matrix[2,11] = green # p
     device.fx.advanced.matrix[3,4] = green # d
+    device.fx.advanced.matrix[3,5] = green # f
     device.fx.advanced.matrix[3,7] = green # h
     device.fx.advanced.matrix[3,10] = green # l
     device.fx.advanced.matrix[3,15] = green # enter

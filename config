@@ -201,4 +201,5 @@ exec xset r rate 172 60
 bindsym XF86MonBrightnessUp exec light -A 1
 bindsym XF86MonBrightnessDown exec light -U 1
 
-
+bindsym $mod+F8 exec ~/Projects/yeelight-shell-scripts/yeelight-scene.sh 0 Off
+bindsym $mod+F9 exec ~/Projects/yeelight-shell-scripts/yeelight-scene.sh 0 On

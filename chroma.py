@@ -393,6 +393,7 @@ def light_ctrlshift():
     device.fx.advanced.matrix[1,8] = green
     device.fx.advanced.matrix[1,9] = green
     device.fx.advanced.matrix[1,10] = green
+    device.fx.advanced.matrix[2,1] = green # tab
     device.fx.advanced.matrix[2,3] = green
     device.fx.advanced.matrix[2,6] = green
     device.fx.advanced.matrix[3,3] = green

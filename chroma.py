@@ -38,6 +38,7 @@ def main():
         server.register_function(light_ctrlaltshift)
         server.register_function(light_ctrlshift)
         server.register_function(light_default)
+        server.register_function(update_workspaces)
         server.register_function(wave)
 
         server.serve_forever()
@@ -168,6 +169,12 @@ def light_ctrl(remember_brightness):
     device.fx.advanced.draw()
 
     set_max_brightness(device, remember_brightness)
+
+def update_workspaces():
+    device = device_manager.devices[0]
+    
+    fill_workspaces(device)
+    device.fx.advanced.draw()
 
 def light_super(remember_brightness):
     device = device_manager.devices[0]

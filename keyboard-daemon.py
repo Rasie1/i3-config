@@ -24,10 +24,6 @@ will_switch_lang = [True]
 keymap = {'ctrl': 0, 'windows': 1, 'shift': 2, 'alt': 3}
 keys = [False, False, False, False]
 def on_release_action(c):
-    if c.scan_code >= 2 and c.scan_code <= 13 or c.scan_code == 41:
-        if not keys[0] and keys[1] and not keys[2] and not keys[3]:
-            keyboard.call_later(chroma.light_super, [False], delay=0.05)
-        return
     if c.name not in keymap:
         return
     keynum = keymap[c.name]
@@ -68,6 +64,10 @@ def on_shiftalt_release():
         will_switch_lang[0] = True
 
 def on_press_action(c):
+    if c.scan_code >= 2 and c.scan_code <= 13 or c.scan_code == 41:
+        if not keys[0] and keys[1] and not keys[2] and not keys[3]:
+            keyboard.call_later(chroma.update_workspaces, (), delay=0.05)
+        return
     if c.name not in keymap:
         return
     keynum = keymap[c.name]

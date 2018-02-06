@@ -23,6 +23,48 @@ def main():
 will_switch_lang = [True]
 keymap = {'ctrl': 0, 'windows': 1, 'shift': 2, 'alt': 3}
 keys = [False, False, False, False]
+
+def update_light():
+    if keys[0]:
+        if keys[1]:
+            if keys[2]:
+                if not keys[3]:
+                    chroma.light_ctrlshiftsuper()
+            else:
+                if not keys[3]:
+                    chroma.light_ctrlsuper()
+        else:
+            if keys[2]:
+                if keys[3]:
+                    chroma.light_ctrlaltshift()
+                else:
+                    chroma.light_ctrlshift()
+            else:
+                if keys[3]:
+                    chroma.light_ctrlalt()
+                else:
+                    chroma.light_ctrl()
+    else:
+        if keys[1]:
+            if keys[2]:
+                chroma.light_shiftsuper()
+            else:
+                if keys[3]:
+                    chroma.light_altsuper()
+                else:
+                    chroma.light_super()
+        else:
+            if keys[2]:
+                if keys[3]:
+                    chroma.light_altshift()
+                else:
+                    chroma.light_shift()
+            else:
+                if keys[3]:
+                    chroma.light_alt()
+                else:
+                    chroma.light_default()
+        
 def on_release_action(c):
     if c.name not in keymap:
         return
@@ -32,30 +74,7 @@ def on_release_action(c):
     if keynum != 2 and keynum != 3 and keyboard.is_pressed("shift+alt"):
         will_switch_lang[0] = False
 
-    if not keys[0] and not keys[1] and not keys[2] and not keys[3]:
-        chroma.light_default()
-    elif keys[0] and not keys[1] and not keys[2] and not keys[3]:
-        chroma.light_ctrl(False)
-    elif not keys[0] and keys[1] and not keys[2] and not keys[3]:
-        chroma.light_super(False)
-    elif not keys[0] and not keys[1] and keys[2] and not keys[3]:
-        chroma.light_shift(False)
-    elif not keys[0] and not keys[1] and not keys[2] and keys[3]:
-        chroma.light_alt(False)
-    elif keys[0] and keys[1] and not keys[2] and not keys[3]:
-        chroma.light_ctrlsuper()
-    elif keys[0] and not keys[1] and keys[2] and not keys[3]:
-        chroma.light_ctrlshift()
-    elif keys[0] and not keys[1] and not keys[2] and keys[3]:
-        chroma.light_ctrlalt()
-    elif not keys[0] and keys[1] and keys[2] and not keys[3]:
-        chroma.light_shiftsuper()
-    elif not keys[0] and not keys[1] and keys[2] and keys[3]:
-        chroma.light_altsuper()
-    elif keys[0] and keys[1] and keys[2] and not keys[3]:
-        chroma.light_ctrlshiftsuper()
-    elif keys[0] and keys[1] and keys[2] and not keys[3]:
-        chroma.light_ctrlaltshift()
+    update_light()
 
 def on_shiftalt_release():
     if will_switch_lang[0]:
@@ -73,61 +92,13 @@ def on_press_action(c):
     keynum = keymap[c.name]
     if keynum != 2 and keynum != 3 and keyboard.is_pressed("shift+alt"):
         will_switch_lang[0] = False
-    if not keys[0] and not keys[1] and not keys[2] and not keys[3]:
-        if keynum == 0:
-            chroma.light_ctrl(True)
-        elif keynum == 1:
-            chroma.light_super(True)
-        elif keynum == 2:
-            chroma.light_shift(True)
-        elif keynum == 3:
-            chroma.light_alt(True)
-    elif keys[0] and not keys[1] and not keys[2] and not keys[3]:
-        if keynum == 1:
-            chroma.light_ctrlsuper()
-        elif keynum == 2:
-            chroma.light_ctrlshift()
-        elif keynum == 3:
-            chroma.light_ctrlalt()
-    elif not keys[0] and keys[1] and not keys[2] and not keys[3]:
-        if keynum == 0:
-            chroma.light_ctrlsuper()
-        elif keynum == 2:
-            chroma.light_shiftsuper()
-        elif keynum == 3:
-            chroma.light_altsuper()
-    elif not keys[0] and not keys[1] and keys[2] and not keys[3]:
-        if keynum == 0:
-            chroma.light_ctrlshift()
-        elif keynum == 1:
-            chroma.light_shiftsuper()
-        elif keynum == 3:
-            chroma.light_altshift()
-    elif not keys[0] and not keys[1] and not keys[2] and keys[3]:
-        if keynum == 0:
-            chroma.light_ctrlalt()
-        elif keynum == 1:
-            chroma.light_altsuper()
-        elif keynum == 2:
-            chroma.light_altshift()
-    elif keys[0] and keys[1] and not keys[2] and not keys[3]:
-        if keynum == 2:
-            chroma.light_ctrlshiftsuper()
-    elif keys[0] and not keys[1] and keys[2] and not keys[3]:
-        if keynum == 1:
-            chroma.light_ctrlshiftsuper()
-        elif keynum == 3:
-            chroma.light_ctrlaltshift()
-    elif keys[0] and not keys[1] and not keys[2] and keys[3]:
-        if keynum == 2:
-            chroma.light_ctrlaltshift()
-    elif not keys[0] and keys[1] and keys[2] and not keys[3]:
-        if keynum == 0:
-            chroma.light_ctrlshiftsuper()
-    elif not keys[0] and not keys[1] and keys[2] and keys[3]:
-        if keynum == 0:
-            chroma.light_ctrlaltshift()
+
+    if keys[keynum]:
+        return
     keys[keynum] = True
+
+
+    update_light()
 
 main()
 

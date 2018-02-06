@@ -4,6 +4,7 @@ Requires=openrazer-daemon.service
 After=openrazer-daemon.service
 
 [Service]
+Restart=always
 ExecStart=/etc/rasiel/chroma.py
 Type=simple
 Environment=DISPLAY=:1

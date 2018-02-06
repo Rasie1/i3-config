@@ -20,7 +20,7 @@ bindсщву $mod+24 kill
 bindсщву $mod+25 kill
 
 # start dmenu (a program launcher)
-bindcode $mod+24 exec dmenu_run
+bindcode $mod+40 exec dmenu_run
 bindcode $mod+shift+33 exec dmenu_run
 bindcode $mod+33 exec python ~/.config/i3/nextfind.py
 # There also is the (new) i3-dmenu-desktop which only displays applications

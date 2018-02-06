@@ -9,63 +9,98 @@ import pwd
 import subprocess
 import sys
 import time
-import xmlrpc.client
+import pipes
 
-chroma = xmlrpc.client.ServerProxy('http://localhost:16767')
 
-def main():
-    keyboard.add_hotkey('shift+alt', on_shiftalt_release, trigger_on_release=True)
-    keyboard.on_press(on_press_action)
-    keyboard.on_release(on_release_action)
-    
-    keyboard.wait()
-
-will_switch_lang = [True]
+if not os.path.exists("/etc/rasiel/keyboardrasiel"):
+    os.mkfifo("/etc/rasiel/keyboardrasiel")  
+will_switch_lang = [True, False]
 keymap = {'ctrl': 0, 'windows': 1, 'shift': 2, 'alt': 3}
 keys = [False, False, False, False]
+
+try:
+    pipe = [os.open("/etc/rasiel/keyboardrasiel", os.O_WRONLY)]
+except Exception as e: 
+    print(e)
+    quit()
+
+
+def light_ctrlshiftsuper(): 
+    os.write(pipe[0], bytes([0]))             
+def light_ctrlsuper():      
+    os.write(pipe[0], bytes([1]))        
+def light_ctrlaltshift():   
+    os.write(pipe[0], bytes([2]))           
+def light_ctrlshift():      
+    os.write(pipe[0], bytes([3]))        
+def light_ctrlalt():        
+    os.write(pipe[0], bytes([4]))       
+def light_ctrl():           
+    os.write(pipe[0], bytes([5]))    
+def light_shiftsuper():     
+    os.write(pipe[0], bytes([6]))          
+def light_altsuper():       
+    os.write(pipe[0], bytes([7]))        
+def light_super():          
+    os.write(pipe[0], bytes([8]))     
+def light_altshift():       
+    os.write(pipe[0], bytes([9]))        
+def light_shift():          
+    os.write(pipe[0], bytes([10]))     
+def light_alt():            
+    os.write(pipe[0], bytes([11]))  
+def light_default():        
+    os.write(pipe[0], bytes([12]))       
+def switchlang():
+    os.write(pipe[0], bytes([15]))    
+def update_workspaces():    
+    os.write(pipe[0], bytes([14]))           
+
 
 def update_light():
     if keys[0]:
         if keys[1]:
             if keys[2]:
                 if not keys[3]:
-                    chroma.light_ctrlshiftsuper()
+                    light_ctrlshiftsuper()
             else:
                 if not keys[3]:
-                    chroma.light_ctrlsuper()
+                    light_ctrlsuper()
         else:
             if keys[2]:
                 if keys[3]:
-                    chroma.light_ctrlaltshift()
+                    light_ctrlaltshift()
                 else:
-                    chroma.light_ctrlshift()
+                    light_ctrlshift()
             else:
                 if keys[3]:
-                    chroma.light_ctrlalt()
+                    light_ctrlalt()
                 else:
-                    chroma.light_ctrl()
+                    light_ctrl()
     else:
         if keys[1]:
             if keys[2]:
-                chroma.light_shiftsuper()
+                light_shiftsuper()
             else:
                 if keys[3]:
-                    chroma.light_altsuper()
+                    light_altsuper()
                 else:
-                    chroma.light_super()
+                    light_super()
         else:
             if keys[2]:
                 if keys[3]:
-                    chroma.light_altshift()
+                    will_switch_lang[1] = True
+                    light_altshift()
                 else:
-                    chroma.light_shift()
+                    light_shift()
             else:
                 if keys[3]:
-                    chroma.light_alt()
+                    light_alt()
                 else:
-                    chroma.light_default()
+                    light_default()
         
 def on_release_action(c):
+    print(2)
     if c.name not in keymap:
         return
     keynum = keymap[c.name]
@@ -73,19 +108,22 @@ def on_release_action(c):
     
     if keynum != 2 and keynum != 3 and keyboard.is_pressed("shift+alt"):
         will_switch_lang[0] = False
-
     update_light()
 
 def on_shiftalt_release():
-    if will_switch_lang[0]:
-        chroma.switchlang()
+    print(1)
+    print(will_switch_lang[0])
+    print(will_switch_lang[1])
+    if will_switch_lang[0] and will_switch_lang[1]:
+        switchlang()
     else:
         will_switch_lang[0] = True
+        will_switch_lang[1] = False
 
 def on_press_action(c):
     if c.scan_code >= 2 and c.scan_code <= 13 or c.scan_code == 41:
         if not keys[0] and keys[1] and not keys[2] and not keys[3]:
-            keyboard.call_later(chroma.update_workspaces, (), delay=0.05)
+            keyboard.call_later(update_workspaces, (), delay=0.05)
         return
     if c.name not in keymap:
         return
@@ -100,5 +138,8 @@ def on_press_action(c):
 
     update_light()
 
-main()
+keyboard.on_press(on_press_action)
+keyboard.on_release(on_release_action)
+keyboard.add_hotkey('shift+alt', on_shiftalt_release, trigger_on_release=True)
 
+keyboard.wait()

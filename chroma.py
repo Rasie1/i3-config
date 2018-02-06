@@ -1,46 +1,28 @@
 #!/usr/bin/python
-from xmlrpc.server import SimpleXMLRPCServer
-from xmlrpc.server import SimpleXMLRPCRequestHandler
 import colorsys
+import os
 import random
 import subprocess
 from openrazer.client import DeviceManager
 from openrazer.client import constants as razer_constants
 import i3
+import time
 
 device_manager = DeviceManager()
 device_manager.sync_effects = False
 i3socket = i3.Socket()
 
-def main():
-    class RequestHandler(SimpleXMLRPCRequestHandler):
-        rpc_paths = ('/RPC2',)
+if not os.path.exists("/etc/rasiel/keyboardrasiel"):
+    os.mkfifo("/etc/rasiel/keyboardrasiel")  
 
-    with SimpleXMLRPCServer(("localhost", 16767),
-                            requestHandler=RequestHandler,
-                            allow_none=True,
-                            logRequests=False) as server:
-        server.register_introspection_functions()
+try:
+    pipe = [open("/etc/rasiel/keyboardrasiel", "r")]
+except:
+    print("Failed opening pipe")
+    pipe.close()
+    quit()
 
-        server.register_function(random_keys)
-        server.register_function(switchlang)
-        server.register_function(light_alt)
-        server.register_function(light_ctrl)
-        server.register_function(light_super)
-        server.register_function(light_shift)
-        server.register_function(light_altshift)
-        server.register_function(light_altsuper)
-        server.register_function(light_shiftsuper)
-        server.register_function(light_ctrlsuper)
-        server.register_function(light_ctrlalt)
-        server.register_function(light_ctrlshiftsuper)
-        server.register_function(light_ctrlaltshift)
-        server.register_function(light_ctrlshift)
-        server.register_function(light_default)
-        server.register_function(update_workspaces)
-        server.register_function(wave)
 
-        server.serve_forever()
 
 
 red = (255, 0, 0)
@@ -411,5 +393,39 @@ def wave():
     device = device_manager.devices[0]
     device.fx.wave(razer_constants.WAVE_RIGHT)
 
+while True:
+    line = pipe[0].read(1)
+    selector = ord(line[-1])
 
-main()
+    print(selector)
+    if selector == 0: 
+        light_ctrlshiftsuper() 
+    elif selector == 1: 
+        light_ctrlsuper()      
+    elif selector == 2: 
+        light_ctrlaltshift()   
+    elif selector == 3: 
+        light_ctrlshift()      
+    elif selector == 4: 
+        light_ctrlalt()        
+    elif selector == 5: 
+        light_ctrl()           
+    elif selector == 6: 
+        light_shiftsuper()     
+    elif selector == 7: 
+        light_altsuper()       
+    elif selector == 8: 
+        light_super()          
+    elif selector == 9: 
+        light_altshift()       
+    elif selector == 10:  
+        light_shift()          
+    elif selector == 11:  
+        light_alt()            
+    elif selector == 12:  
+        light_default()        
+    elif selector == 15:
+        switchlang()           
+        light_altshift()
+    elif selector == 14:  
+        update_workspaces()    

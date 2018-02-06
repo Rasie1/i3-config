@@ -130,6 +130,8 @@ def light_ctrl():
     device.fx.advanced.matrix[4,4] = yellow # x
     device.fx.advanced.matrix[4,5] = yellow # c
     device.fx.advanced.matrix[4,6] = yellow # v
+    device.fx.advanced.matrix[4,10] = green # ,
+    device.fx.advanced.matrix[4,11] = green # .
     device.fx.advanced.matrix[4,12] = green # -
     device.fx.advanced.matrix[4,15] = language_dependent_color() # shift
     device.fx.advanced.matrix[5,1] = white # strg
@@ -160,7 +162,7 @@ def light_super():
     device.fx.advanced.matrix[0,9] = white
     device.fx.advanced.matrix[0,10] = white
     device.fx.advanced.matrix[2,2] = red # q
-    device.fx.advanced.matrix[2,3] = green # w
+    device.fx.advanced.matrix[2,3] = red # w
     device.fx.advanced.matrix[2,6] = green # t
     device.fx.advanced.matrix[2,11] = green # p
     device.fx.advanced.matrix[3,4] = green # d
@@ -172,8 +174,6 @@ def light_super():
     device.fx.advanced.matrix[4,3] = green # y
     device.fx.advanced.matrix[4,4] = green # x
     device.fx.advanced.matrix[4,6] = green # v
-    device.fx.advanced.matrix[4,10] = green # ,
-    device.fx.advanced.matrix[4,11] = green # .
     device.fx.advanced.matrix[4,15] = language_dependent_color() # shift
     device.fx.advanced.matrix[5,1] = language_dependent_color() # strg
     device.fx.advanced.matrix[5,3] = white # super
@@ -312,13 +312,13 @@ def light_shiftsuper():
     fill_workspaces(device)
     device.fx.advanced.matrix[2,4] = red
     device.fx.advanced.matrix[2,5] = green
+    device.fx.advanced.matrix[2,6] = red
     device.fx.advanced.matrix[2,11] = green # p
     device.fx.advanced.matrix[3,15] = red # enter
     device.fx.advanced.matrix[4,1] = white 
     device.fx.advanced.matrix[4,3] = green 
     device.fx.advanced.matrix[4,4] = green 
-    device.fx.advanced.matrix[4,10] = green 
-    device.fx.advanced.matrix[4,11] = green 
+    device.fx.advanced.matrix[4,5] = green 
     device.fx.advanced.matrix[4,15] = white
     device.fx.advanced.matrix[5,1] = language_dependent_color() # strg
     device.fx.advanced.matrix[5,2] = language_dependent_color() # fn

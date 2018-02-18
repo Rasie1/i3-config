@@ -28,12 +28,15 @@ except:
 red = (255, 0, 0)
 greenplus = (60, 255, 20)
 green = (0, 255, 0)
-yellow = (255, 255, 0)
+lightgreen = (55, 255, 55)
 darkgreen = (0, 10, 0)
 blue = (0, 0, 255)
+cyan = (0, 255, 255)
 magenta = (255, 0, 255)
+yellow = (255, 255, 0)
 black = (0, 0, 0)
 white = (255, 255, 255)
+orange = (255, 165, 0)
 def language_dependent_color():
     if language_us[0]:
         return blue
@@ -66,17 +69,28 @@ def fill_workspaces(device):
         device.fx.advanced.matrix[1, i] = darkgreen
     for ws in workspaces:
         if ws['urgent']:
-            color = red
+            color = orange
         elif ws['visible']:
             color = white
         else:
             color = yellow
         device.fx.advanced.matrix[1, ws['num']] = color
+def light_modifiers(device):
+    newcolor = language_dependent_color()
+    device.fx.advanced.matrix[4,1] = newcolor # shift
+    device.fx.advanced.matrix[4,15] = newcolor # shift
+    device.fx.advanced.matrix[5,1] = newcolor # strg
+    device.fx.advanced.matrix[5,2] = newcolor # fn
+    device.fx.advanced.matrix[5,3] = newcolor # super
+    device.fx.advanced.matrix[5,4] = newcolor # alt
+    device.fx.advanced.matrix[5,9] = newcolor # alt
+    device.fx.advanced.matrix[5,10] = newcolor # fn
+    device.fx.advanced.matrix[5,11] = newcolor # strg
 
 def light_ctrl():
     device = device_manager.devices[0]
     clear_light(device)
-
+    light_modifiers(device)
     device.fx.advanced.matrix[1,2] = green 
     device.fx.advanced.matrix[1,3] = green
     device.fx.advanced.matrix[1,4] = green
@@ -104,10 +118,10 @@ def light_ctrl():
     device.fx.advanced.matrix[3,4] = green # d
     device.fx.advanced.matrix[3,5] = yellow # f
     device.fx.advanced.matrix[3,6] = green # g
-    device.fx.advanced.matrix[3,8] = green # g
+    device.fx.advanced.matrix[3,8] = green # j
+    device.fx.advanced.matrix[3,9] = green # k
     device.fx.advanced.matrix[3,10] = green # l
     device.fx.advanced.matrix[3,15] = green # enter
-    device.fx.advanced.matrix[4,1] = language_dependent_color() # shift
     device.fx.advanced.matrix[4,3] = yellow # y
     device.fx.advanced.matrix[4,4] = yellow # x
     device.fx.advanced.matrix[4,5] = yellow # c
@@ -115,18 +129,12 @@ def light_ctrl():
     device.fx.advanced.matrix[4,10] = green # ,
     device.fx.advanced.matrix[4,11] = green # .
     device.fx.advanced.matrix[4,12] = green # -
-    device.fx.advanced.matrix[4,15] = language_dependent_color() # shift
-    device.fx.advanced.matrix[5,1] = white # strg
-    device.fx.advanced.matrix[5,2] = language_dependent_color() # fn
-    device.fx.advanced.matrix[5,3] = language_dependent_color() # super
-    device.fx.advanced.matrix[5,4] = language_dependent_color() # alt
-    device.fx.advanced.matrix[5,9] = language_dependent_color() # alt
-    device.fx.advanced.matrix[5,10] = language_dependent_color() # fn
-    device.fx.advanced.matrix[5,11] = white # strg
     device.fx.advanced.matrix[5,12] = green # arrow
     device.fx.advanced.matrix[5,13] = green # arrow
     device.fx.advanced.matrix[5,14] = green # arrow
     device.fx.advanced.matrix[5,15] = green # arrow
+    device.fx.advanced.matrix[5,1] = white # strg
+    device.fx.advanced.matrix[5,11] = white # strg
     device.fx.advanced.draw()
 
 
@@ -140,11 +148,13 @@ def light_super():
     device = device_manager.devices[0]
     clear_light(device)
     
+    light_modifiers(device)
     fill_workspaces(device)
-    device.fx.advanced.matrix[0,9] = white
-    device.fx.advanced.matrix[0,10] = white
+    device.fx.advanced.matrix[0,9] = green
+    device.fx.advanced.matrix[0,10] = green
     device.fx.advanced.matrix[2,2] = red # q
     device.fx.advanced.matrix[2,3] = red # w
+    device.fx.advanced.matrix[2,5] = green # r
     device.fx.advanced.matrix[2,6] = green # t
     device.fx.advanced.matrix[2,11] = green # p
     device.fx.advanced.matrix[3,4] = green # d
@@ -152,23 +162,20 @@ def light_super():
     device.fx.advanced.matrix[3,7] = green # h
     device.fx.advanced.matrix[3,10] = green # l
     device.fx.advanced.matrix[3,15] = green # enter
-    device.fx.advanced.matrix[4,1] = language_dependent_color() # shift
     device.fx.advanced.matrix[4,3] = green # y
     device.fx.advanced.matrix[4,4] = green # x
     device.fx.advanced.matrix[4,6] = green # v
-    device.fx.advanced.matrix[4,15] = language_dependent_color() # shift
-    device.fx.advanced.matrix[5,1] = language_dependent_color() # strg
-    device.fx.advanced.matrix[5,3] = white # super
-    device.fx.advanced.matrix[5,11] = language_dependent_color() # strg
     device.fx.advanced.matrix[5,12] = green # arrow
     device.fx.advanced.matrix[5,13] = green # arrow
     device.fx.advanced.matrix[5,14] = green # arrow
     device.fx.advanced.matrix[5,15] = green # arrow
+    device.fx.advanced.matrix[5,3] = white # super
     device.fx.advanced.draw()
 
 def light_shift():
     device = device_manager.devices[0]
     clear_light(device)
+    light_modifiers(device)
 
     device.fx.advanced.matrix[0,13] = green
     device.fx.advanced.matrix[1,1] = green
@@ -180,8 +187,8 @@ def light_shift():
     device.fx.advanced.matrix[1,7] = green
     device.fx.advanced.matrix[1,8] = green
     device.fx.advanced.matrix[1,9] = green
-    device.fx.advanced.matrix[1,10] = green
-    device.fx.advanced.matrix[1,11] = green
+    device.fx.advanced.matrix[1,10] = yellow
+    device.fx.advanced.matrix[1,11] = yellow
     device.fx.advanced.matrix[1,12] = green
     device.fx.advanced.matrix[1,13] = green
     device.fx.advanced.matrix[2,1] = green
@@ -206,7 +213,7 @@ def light_shift():
     device.fx.advanced.matrix[3,8] = green
     device.fx.advanced.matrix[3,9] = green
     device.fx.advanced.matrix[3,10] = green
-    device.fx.advanced.matrix[3,11] = green
+    device.fx.advanced.matrix[3,11] = yellow
     device.fx.advanced.matrix[3,12] = green
     device.fx.advanced.matrix[3,13] = green
     device.fx.advanced.matrix[3,15] = green
@@ -224,13 +231,6 @@ def light_shift():
     device.fx.advanced.matrix[4,12] = green
     device.fx.advanced.matrix[4,13] = green
     device.fx.advanced.matrix[4,15] = white
-    device.fx.advanced.matrix[5,1] = language_dependent_color() # strg
-    device.fx.advanced.matrix[5,2] = language_dependent_color() # fn
-    device.fx.advanced.matrix[5,3] = language_dependent_color() # super
-    device.fx.advanced.matrix[5,4] = language_dependent_color() # alt
-    device.fx.advanced.matrix[5,9] = language_dependent_color() # alt
-    device.fx.advanced.matrix[5,10] = language_dependent_color() # fn
-    device.fx.advanced.matrix[5,11] = language_dependent_color() # strg
     device.fx.advanced.matrix[5,12] = green # arrow
     device.fx.advanced.matrix[5,13] = green # arrow
     device.fx.advanced.matrix[5,14] = green # arrow
@@ -240,15 +240,12 @@ def light_shift():
 def light_alt():
     device = device_manager.devices[0]
     clear_light(device)
+    light_modifiers(device)
+
+    device.fx.advanced.matrix[1,15] = green # backspace
     device.fx.advanced.matrix[2,1] = green # tab
-    device.fx.advanced.matrix[4,1] = language_dependent_color() 
-    device.fx.advanced.matrix[4,15] = language_dependent_color()
-    device.fx.advanced.matrix[5,1] = language_dependent_color() # strg
-    device.fx.advanced.matrix[5,2] = language_dependent_color() # fn
     device.fx.advanced.matrix[5,4] = white # alt
     device.fx.advanced.matrix[5,9] = white # alt
-    device.fx.advanced.matrix[5,10] = language_dependent_color() # fn
-    device.fx.advanced.matrix[5,11] = language_dependent_color() # strg
     device.fx.advanced.matrix[5,12] = green # arrow
     device.fx.advanced.matrix[5,15] = green # arrow
     device.fx.advanced.draw()
@@ -256,6 +253,8 @@ def light_alt():
 def light_altshift():
     device = device_manager.devices[0]
     clear_light(device)
+    light_modifiers(device)
+
     device.fx.advanced.matrix[1,2] = green 
     device.fx.advanced.matrix[1,3] = green
     device.fx.advanced.matrix[1,4] = green
@@ -267,13 +266,8 @@ def light_altshift():
     device.fx.advanced.matrix[1,10] = green
     device.fx.advanced.matrix[4,1] = white 
     device.fx.advanced.matrix[4,15] = white
-    device.fx.advanced.matrix[5,1] = language_dependent_color() # strg
-    device.fx.advanced.matrix[5,2] = language_dependent_color() # fn
-    device.fx.advanced.matrix[5,3] = language_dependent_color() # super
     device.fx.advanced.matrix[5,4] = white # alt
     device.fx.advanced.matrix[5,9] = white # alt
-    device.fx.advanced.matrix[5,10] = language_dependent_color() # fn
-    device.fx.advanced.matrix[5,11] = language_dependent_color() # strg
     device.fx.advanced.matrix[5,12] = green # arrow
     device.fx.advanced.matrix[5,13] = green # arrow
     device.fx.advanced.matrix[5,14] = green # arrow
@@ -290,6 +284,7 @@ def light_altsuper():
 def light_shiftsuper():
     device = device_manager.devices[0]
     clear_light(device)
+    light_modifiers(device)
 
     fill_workspaces(device)
     device.fx.advanced.matrix[2,4] = red
@@ -302,13 +297,7 @@ def light_shiftsuper():
     device.fx.advanced.matrix[4,4] = green 
     device.fx.advanced.matrix[4,5] = green 
     device.fx.advanced.matrix[4,15] = white
-    device.fx.advanced.matrix[5,1] = language_dependent_color() # strg
-    device.fx.advanced.matrix[5,2] = language_dependent_color() # fn
     device.fx.advanced.matrix[5,3] = white # super
-    device.fx.advanced.matrix[5,4] = language_dependent_color() # alt
-    device.fx.advanced.matrix[5,9] = language_dependent_color() # alt
-    device.fx.advanced.matrix[5,10] = language_dependent_color() # fn
-    device.fx.advanced.matrix[5,11] = language_dependent_color() # strg
     device.fx.advanced.matrix[5,12] = green # arrow
     device.fx.advanced.matrix[5,13] = green # arrow
     device.fx.advanced.matrix[5,14] = green # arrow
@@ -338,6 +327,7 @@ def light_ctrlaltshift():
 def light_ctrlshift():
     device = device_manager.devices[0]
     clear_light(device)
+    light_modifiers(device)
     device.fx.advanced.matrix[1,2] = green 
     device.fx.advanced.matrix[1,3] = green
     device.fx.advanced.matrix[1,4] = green
@@ -359,11 +349,6 @@ def light_ctrlshift():
     device.fx.advanced.matrix[4,6] = yellow 
     device.fx.advanced.matrix[4,15] = white
     device.fx.advanced.matrix[5,1] = white # strg
-    device.fx.advanced.matrix[5,2] = language_dependent_color() # fn
-    device.fx.advanced.matrix[5,3] = language_dependent_color() # super
-    device.fx.advanced.matrix[5,4] = language_dependent_color() # alt
-    device.fx.advanced.matrix[5,9] = language_dependent_color() # alt
-    device.fx.advanced.matrix[5,10] = language_dependent_color() # fn
     device.fx.advanced.matrix[5,11] = white # strg
     device.fx.advanced.matrix[5,12] = green # arrow
     device.fx.advanced.matrix[5,13] = green # arrow

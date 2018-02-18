@@ -100,7 +100,6 @@ def update_light():
                     light_default()
         
 def on_release_action(c):
-    print(2)
     if c.name not in keymap:
         return
     keynum = keymap[c.name]
@@ -111,9 +110,6 @@ def on_release_action(c):
     update_light()
 
 def on_shiftalt_release():
-    print(1)
-    print(will_switch_lang[0])
-    print(will_switch_lang[1])
     if will_switch_lang[0] and will_switch_lang[1]:
         switchlang()
     else:

@@ -382,7 +382,7 @@ while True:
     line = pipe[0].read(1)
     selector = ord(line[-1])
 
-    print(selector)
+    # print(selector)
     if selector == 0: 
         light_ctrlshiftsuper() 
     elif selector == 1: 
@@ -411,6 +411,5 @@ while True:
         light_default()        
     elif selector == 15:
         switchlang()           
-        light_altshift()
     elif selector == 14:  
         update_workspaces()    

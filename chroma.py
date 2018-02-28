@@ -55,6 +55,12 @@ def switchlang():
         language_us[0] = True
     subprocess.call(["setxkbmap", language])
 
+    device = device_manager.devices[0]
+    light_modifiers(device)
+    device.fx.advanced.matrix[5,4] = white # alt
+    device.fx.advanced.matrix[5,9] = white # alt
+    device.fx.advanced.draw()
+
 def random_color():
     rgb = colorsys.hsv_to_rgb(random.uniform(0, 1), random.uniform(0.5, 1), 1)
     return tuple(map(lambda x: int(256 * x), rgb))
@@ -410,6 +416,6 @@ while True:
     elif selector == 12:  
         light_default()        
     elif selector == 15:
-        switchlang()           
+        switchlang()
     elif selector == 14:  
         update_workspaces()    

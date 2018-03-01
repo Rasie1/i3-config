@@ -36,7 +36,7 @@ magenta = (255, 0, 255)
 yellow = (255, 255, 0)
 black = (0, 0, 0)
 white = (255, 255, 255)
-orange = (255, 165, 0)
+orange = (255, 64, 0)
 def language_dependent_color():
     if language_us[0]:
         return blue
@@ -293,6 +293,15 @@ def light_shiftsuper():
     light_modifiers(device)
 
     fill_workspaces(device)
+    device.fx.advanced.matrix[0,5] = orange
+    device.fx.advanced.matrix[0,6] = yellow
+    device.fx.advanced.matrix[0,7] = (255, 255, 255)
+    device.fx.advanced.matrix[0,8] = cyan
+    device.fx.advanced.matrix[0,9] = (10, 10, 10)
+    device.fx.advanced.matrix[0,10] = (50, 50, 50)
+    device.fx.advanced.matrix[0,11] = (100, 100, 100)
+    device.fx.advanced.matrix[0,12] = (150, 150, 150)
+    device.fx.advanced.matrix[0,13] = (255, 255, 255)
     device.fx.advanced.matrix[2,4] = red
     device.fx.advanced.matrix[2,5] = green
     device.fx.advanced.matrix[2,6] = red

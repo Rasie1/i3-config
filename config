@@ -193,5 +193,14 @@ bindsym XF86MonBrightnessDown exec light -U 1
 
 bindsym $mod+F8 exec ~/Projects/yeelight-shell-scripts/yeelight-scene.sh 0 Off
 bindsym $mod+F9 exec ~/Projects/yeelight-shell-scripts/yeelight-scene.sh 0 On
+bindsym $mod+Shift+F4 exec ~/Projects/yeelight-shell-scripts/yeelight-colortemp.sh 0 1700
+bindsym $mod+Shift+F5 exec ~/Projects/yeelight-shell-scripts/yeelight-colortemp.sh 0 3200
+bindsym $mod+Shift+F6 exec ~/Projects/yeelight-shell-scripts/yeelight-colortemp.sh 0 4500
+bindsym $mod+Shift+F7 exec ~/Projects/yeelight-shell-scripts/yeelight-colortemp.sh 0 6500
+bindsym $mod+Shift+F8 exec ~/Projects/yeelight-shell-scripts/yeelight-brightness.sh 0 1
+bindsym $mod+Shift+F9 exec ~/Projects/yeelight-shell-scripts/yeelight-brightness.sh 0 25
+bindsym $mod+Shift+F10 exec ~/Projects/yeelight-shell-scripts/yeelight-brightness.sh 0 50
+bindsym $mod+Shift+F11 exec ~/Projects/yeelight-shell-scripts/yeelight-brightness.sh 0 75
+bindsym $mod+Shift+F12 exec ~/Projects/yeelight-shell-scripts/yeelight-brightness.sh 0 100
 
 exec --no-startup-id systemctl --user restart chroma-rasiel.service

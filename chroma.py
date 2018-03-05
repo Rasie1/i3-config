@@ -293,10 +293,13 @@ def light_shiftsuper():
     light_modifiers(device)
 
     fill_workspaces(device)
-    device.fx.advanced.matrix[0,5] = orange
-    device.fx.advanced.matrix[0,6] = yellow
-    device.fx.advanced.matrix[0,7] = (255, 255, 255)
-    device.fx.advanced.matrix[0,8] = cyan
+    device.fx.advanced.matrix[0,2] = red
+    device.fx.advanced.matrix[0,3] = magenta
+    device.fx.advanced.matrix[0,4] = orange
+    device.fx.advanced.matrix[0,5] = yellow
+    device.fx.advanced.matrix[0,6] = (255, 255, 255)
+    device.fx.advanced.matrix[0,7] = cyan
+    device.fx.advanced.matrix[0,8] = blue
     device.fx.advanced.matrix[0,9] = (10, 10, 10)
     device.fx.advanced.matrix[0,10] = (50, 50, 50)
     device.fx.advanced.matrix[0,11] = (100, 100, 100)

@@ -118,7 +118,7 @@ def on_shiftalt_release():
 
 def on_press_action(c):
     if c.scan_code >= 2 and c.scan_code <= 13 or c.scan_code == 41:
-        if not keys[0] and keys[1] and not keys[2] and not keys[3]:
+        if not keys[0] and keys[1] and not keys[3]:
             keyboard.call_later(update_workspaces, (), delay=0.05)
         return
     if c.name not in keymap:

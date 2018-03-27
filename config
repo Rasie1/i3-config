@@ -16,8 +16,8 @@ bindsym $mod+Shift+Return kill
 bindcode $mod+28 exec i3-sensible-terminal
 bindcode $mod+Shift+28 kill
 
-bindсщву $mod+24 kill
-bindсщву $mod+25 kill
+bindcode $mod+24 kill
+bindcode $mod+25 kill
 
 # start dmenu (a program launcher)
 bindcode $mod+40 exec dmenu_run
@@ -107,6 +107,9 @@ bindsym $mod+Shift+equal move container to workspace 13
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
+bindsym $mod+Shift+v exec gksudo /home/rasiel/.config/i3/reload_services.sh
+bindsym $mod+Shift+b exec xset r rate 172 60
+bindsym $mod+Shift+n exec subl -n /home/rasiel/.config/i3/
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)

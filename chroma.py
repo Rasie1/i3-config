@@ -313,7 +313,10 @@ def light_shiftsuper():
     device.fx.advanced.matrix[4,1] = white 
     device.fx.advanced.matrix[4,3] = green 
     device.fx.advanced.matrix[4,4] = green 
-    device.fx.advanced.matrix[4,5] = green 
+    device.fx.advanced.matrix[4,5] = yellow # c 
+    device.fx.advanced.matrix[4,6] = yellow 
+    device.fx.advanced.matrix[4,7] = yellow 
+    device.fx.advanced.matrix[4,8] = yellow 
     device.fx.advanced.matrix[4,15] = white
     device.fx.advanced.matrix[5,3] = white # super
     device.fx.advanced.matrix[5,12] = green # arrow

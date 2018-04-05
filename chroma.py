@@ -7,7 +7,6 @@ from openrazer.client import DeviceManager
 from openrazer.client import constants as razer_constants
 import i3
 import time
-from xml.dom.minidom import parse
 
 device_manager = DeviceManager()
 device_manager.sync_effects = False
@@ -71,13 +70,13 @@ def load_env_type():
             env_effect[0] = True
 
 def load_environment_color():
-    currentScheme = "/home/rasiel/.config/sublime-text-3/Packages/User/VS.tmTheme"
-    path = currentScheme
-    dom = parse(path)
-    typecolor = dom.childNodes[2].childNodes[1].childNodes[11].childNodes[33].childNodes[11].childNodes[7].childNodes[0].nodeValue
-    # keywordcolor = array.childNodes[7].childNodes[11].childNodes[7].childNodes[0].nodeValue
-    environment_color[0] = hex_to_light(typecolor)
-    # environment_color[1] = hex_to_lighy(node)
+    with open('/home/rasiel/.config/i3/envcolor.txt') as f:
+        rgb = list([int(x) for x in next(f).split()])
+        m = rgb.index(max(rgb))
+        rgb[m] = 255
+        rgb[(m + 1) % 3] //= 2
+        rgb[(m + 2) % 3] //= 2
+        environment_color[0] = tuple(rgb)
 
 def switchlang():
     if language_us[0]:

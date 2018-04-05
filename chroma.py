@@ -76,7 +76,6 @@ def load_environment_color():
     dom = parse(path)
     typecolor = dom.childNodes[2].childNodes[1].childNodes[11].childNodes[33].childNodes[11].childNodes[7].childNodes[0].nodeValue
     # keywordcolor = array.childNodes[7].childNodes[11].childNodes[7].childNodes[0].nodeValue
-    print(hex_to_light(typecolor))
     environment_color[0] = hex_to_light(typecolor)
     # environment_color[1] = hex_to_lighy(node)
 
@@ -134,6 +133,7 @@ def light_modifiers(device):
 
 def light_ctrl():
     device = device_manager.devices[0]
+    clear_light(device)
     
     light_modifiers(device)
     device.fx.advanced.matrix[1,2] = green 
@@ -191,7 +191,7 @@ def update_workspaces():
 
 def light_super():
     device = device_manager.devices[0]
-    
+    clear_light(device)
     
     light_modifiers(device)
     fill_workspaces(device)
@@ -219,6 +219,7 @@ def light_super():
 
 def light_shift():
     device = device_manager.devices[0]
+    clear_light(device)
     
     light_modifiers(device)
 
@@ -284,6 +285,7 @@ def light_shift():
 
 def light_alt():
     device = device_manager.devices[0]
+    clear_light(device)
     
     light_modifiers(device)
 
@@ -297,6 +299,7 @@ def light_alt():
 
 def light_altshift():
     device = device_manager.devices[0]
+    clear_light(device)
     
     light_modifiers(device)
 
@@ -328,6 +331,7 @@ def light_altsuper():
 
 def light_shiftsuper():
     device = device_manager.devices[0]
+    clear_light(device)
     
     light_modifiers(device)
 
@@ -366,26 +370,31 @@ def light_shiftsuper():
 
 def light_ctrlshiftsuper():
     device = device_manager.devices[0]
+    clear_light(device)
     
     light_unsupported()
 
 def light_ctrlsuper():
     device = device_manager.devices[0]
+    clear_light(device)
     
     light_unsupported()
 
 def light_ctrlalt():
     device = device_manager.devices[0]
+    clear_light(device)
     
     light_unsupported()
 
 def light_ctrlaltshift():
     device = device_manager.devices[0]
+    clear_light(device)
     
     light_unsupported()
 
 def light_ctrlshift():
     device = device_manager.devices[0]
+    clear_light(device)
     clear_light(device)
     light_modifiers(device)
     device.fx.advanced.matrix[1,2] = green 

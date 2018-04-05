@@ -117,9 +117,10 @@ def on_shiftalt_release():
         will_switch_lang[1] = False
 
 def on_press_action(c):
-    if c.scan_code >= 2 and c.scan_code <= 13 or c.scan_code == 41:
-        if not keys[0] and keys[1] and not keys[3]:
+    if c.scan_code >= 2 and c.scan_code <= 13 or c.scan_code == 41 or c.scan_code == 15:
+        if not keys[0] and keys[1] and not keys[3] or not keys[0] and not keys[1] and keys[3]:
             keyboard.call_later(update_workspaces, (), delay=0.05)
+
         return
     if c.name not in keymap:
         return

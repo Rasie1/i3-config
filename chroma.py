@@ -7,6 +7,7 @@ from openrazer.client import DeviceManager
 from openrazer.client import constants as razer_constants
 import i3
 import time
+from xml.dom.minidom import parse
 
 device_manager = DeviceManager()
 device_manager.sync_effects = False
@@ -46,6 +47,39 @@ def language_dependent_color():
 language_us = [True]
 subprocess.call(["setxkbmap", "us,ru"])
 
+environment_color = [green]
+env_effect = [False]
+
+def hex_to_light(value):
+    value = value.lstrip('#')
+    lv = len(value)
+    rgb = list(int(value[i:i + lv // 3], 16) for i in range(0, lv, lv // 3))
+    m = rgb.index(max(rgb))
+    rgb[m] = 255
+    rgb[(m + 1) % 3] //= 2
+    rgb[(m + 2) % 3] //= 2
+    return tuple(rgb)
+
+def load_env_type():
+    current = [ws for ws in i3.get_workspaces() if ws['focused']][0]
+    workspace = i3.filter(num=current['num'])
+    if workspace:
+        found = str(workspace).find("Sublime")
+        if found == -1:
+            env_effect[0] = False
+        else:
+            env_effect[0] = True
+
+def load_environment_color():
+    currentScheme = "/home/rasiel/.config/sublime-text-3/Packages/User/VS.tmTheme"
+    path = currentScheme
+    dom = parse(path)
+    typecolor = dom.childNodes[2].childNodes[1].childNodes[11].childNodes[33].childNodes[11].childNodes[7].childNodes[0].nodeValue
+    # keywordcolor = array.childNodes[7].childNodes[11].childNodes[7].childNodes[0].nodeValue
+    print(hex_to_light(typecolor))
+    environment_color[0] = hex_to_light(typecolor)
+    # environment_color[1] = hex_to_lighy(node)
+
 def switchlang():
     if language_us[0]:
         language = "ru,us"
@@ -64,12 +98,17 @@ def switchlang():
 def random_color():
     rgb = colorsys.hsv_to_rgb(random.uniform(0, 1), random.uniform(0.5, 1), 1)
     return tuple(map(lambda x: int(256 * x), rgb))
+def fill(device, color):
+    device.fx.static(color[0], color[1], color[2])
 def clear_light(device):
     rows, cols = device.fx.advanced.rows, device.fx.advanced.cols
     for row in range(rows):
         for col in range(cols):
             device.fx.advanced.matrix[row, col] = black
 def fill_workspaces(device):
+    load_env_type()
+    if env_effect[0]:
+        load_environment_color()
     workspaces = i3socket.get("get_workspaces")
     for i in range(1, 14):
         device.fx.advanced.matrix[1, i] = darkgreen
@@ -95,7 +134,7 @@ def light_modifiers(device):
 
 def light_ctrl():
     device = device_manager.devices[0]
-    clear_light(device)
+    
     light_modifiers(device)
     device.fx.advanced.matrix[1,2] = green 
     device.fx.advanced.matrix[1,3] = green
@@ -148,11 +187,11 @@ def update_workspaces():
     device = device_manager.devices[0]
     
     fill_workspaces(device)
-    device.fx.advanced.draw()
+    device.fx.advanced.draw_fb_or()
 
 def light_super():
     device = device_manager.devices[0]
-    clear_light(device)
+    
     
     light_modifiers(device)
     fill_workspaces(device)
@@ -180,7 +219,7 @@ def light_super():
 
 def light_shift():
     device = device_manager.devices[0]
-    clear_light(device)
+    
     light_modifiers(device)
 
     device.fx.advanced.matrix[0,13] = green
@@ -245,7 +284,7 @@ def light_shift():
 
 def light_alt():
     device = device_manager.devices[0]
-    clear_light(device)
+    
     light_modifiers(device)
 
     device.fx.advanced.matrix[1,15] = green # backspace
@@ -258,7 +297,7 @@ def light_alt():
 
 def light_altshift():
     device = device_manager.devices[0]
-    clear_light(device)
+    
     light_modifiers(device)
 
     device.fx.advanced.matrix[1,2] = green 
@@ -283,13 +322,13 @@ def light_altshift():
 
 def light_altsuper():
     device = device_manager.devices[0]
-    clear_light(device)
+    
     light_unsupported()
     device.fx.advanced.draw()
 
 def light_shiftsuper():
     device = device_manager.devices[0]
-    clear_light(device)
+    
     light_modifiers(device)
 
     fill_workspaces(device)
@@ -327,22 +366,22 @@ def light_shiftsuper():
 
 def light_ctrlshiftsuper():
     device = device_manager.devices[0]
-    clear_light(device)
+    
     light_unsupported()
 
 def light_ctrlsuper():
     device = device_manager.devices[0]
-    clear_light(device)
+    
     light_unsupported()
 
 def light_ctrlalt():
     device = device_manager.devices[0]
-    clear_light(device)
+    
     light_unsupported()
 
 def light_ctrlaltshift():
     device = device_manager.devices[0]
-    clear_light(device)
+    
     light_unsupported()
 
 def light_ctrlshift():
@@ -379,7 +418,10 @@ def light_ctrlshift():
 
 def light_default():
     device = device_manager.devices[0]
-    wave()
+    if env_effect[0]:
+        fill(device, environment_color[0])
+    else:
+        wave(device)
 
 def light_unsupported():
     random_keys()
@@ -394,9 +436,7 @@ def random_keys():
 
     device.fx.advanced.draw()
 
-
-def wave():
-    device = device_manager.devices[0]
+def wave(device):
     device.fx.wave(razer_constants.WAVE_RIGHT)
 
 while True:

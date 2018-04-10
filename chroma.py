@@ -48,15 +48,16 @@ subprocess.call(["setxkbmap", "us,ru"])
 
 environment_color = [green]
 env_effect = [False]
+reactive_effect = [False]
 
 def hex_to_light(value):
     value = value.lstrip('#')
     lv = len(value)
     rgb = list(int(value[i:i + lv // 3], 16) for i in range(0, lv, lv // 3))
-    m = rgb.index(max(rgb))
-    rgb[m] = 255
-    rgb[(m + 1) % 3] //= 2
-    rgb[(m + 2) % 3] //= 2
+    # rgb[0] = floor(rgb[0] / 255 * 200) + 55
+    rgb[0] = max(0, floor(rgb[0] / 255 * 355) - 100)
+    rgb[1] = max(0, floor(rgb[0] / 255 * 355) - 100)
+    rgb[2] = max(0, floor(rgb[0] / 255 * 355) - 100)
     return tuple(rgb)
 
 def load_env_type():
@@ -426,7 +427,9 @@ def light_ctrlshift():
 
 def light_default():
     device = device_manager.devices[0]
-    if env_effect[0]:
+    if reactive_effect[0]:
+        reactive(device)
+    elif env_effect[0]:
         fill(device, environment_color[0])
     else:
         wave(device)
@@ -446,6 +449,20 @@ def random_keys():
 
 def wave(device):
     device.fx.wave(razer_constants.WAVE_RIGHT)
+
+def setreactive():
+    print("set")
+    device = device_manager.devices[0]
+    reactive_effect[0] = True
+    reactive(device)
+
+def unsetreactive():
+    print("unset")
+    reactive_effect[0] = False
+    light_default()
+
+def reactive(device):
+    device.fx.reactive(environment_color[0][0], environment_color[0][1], environment_color[0][2], 4)
 
 while True:
     line = pipe[0].read(1)
@@ -482,3 +499,7 @@ while True:
         switchlang()
     elif selector == 14:  
         update_workspaces()    
+    elif selector == 56:  
+        setreactive()    
+    elif selector == 57:  
+        unsetreactive()    

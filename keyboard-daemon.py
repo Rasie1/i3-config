@@ -55,6 +55,10 @@ def switchlang():
     os.write(pipe[0], bytes([15]))    
 def update_workspaces():    
     os.write(pipe[0], bytes([14]))           
+def block_with_typing():    
+    os.write(pipe[0], bytes([56]))           
+def escape_typing():    
+    os.write(pipe[0], bytes([57]))           
 
 
 def update_light():
@@ -122,6 +126,10 @@ def on_press_action(c):
             keyboard.call_later(update_workspaces, (), delay=0.05)
 
         return
+    if c.scan_code == 25 and keys[1]: # p
+        keyboard.call_later(block_with_typing, (), delay=0.05)
+    if c.scan_code == 1 or c.scan_code == 28: # esc, enter
+        keyboard.call_later(escape_typing, (), delay=0.05)
     if c.name not in keymap:
         return
     keynum = keymap[c.name]

@@ -430,7 +430,11 @@ def light_default():
     if reactive_effect[0]:
         reactive(device)
     elif env_effect[0]:
-        fill(device, environment_color[0])
+        if language_us[0]:
+            color_to_fill = environment_color[0]
+        else:
+            color_to_fill = red
+        fill(device, color_to_fill)
     else:
         wave(device)
 

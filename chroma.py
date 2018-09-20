@@ -52,6 +52,10 @@ reactive_effect = [False]
 previous_brightness = [40]
 remember_brightness = [True]
 
+def getKeyboard(device_manager):
+    for device in device_manager.devices:
+        if device.name == 'Razer Blade Stealth (Late 2017)':
+            return device
 
 def set_max_brightness(device):
     if remember_brightness[0]:
@@ -105,7 +109,7 @@ def switchlang():
         language_us[0] = True
     subprocess.call(["setxkbmap", language])
 
-    device = device_manager.devices[0]
+    device = getKeyboard(device_manager)
     light_modifiers(device)
     device.fx.advanced.matrix[5,4] = white # alt
     device.fx.advanced.matrix[5,9] = white # alt
@@ -149,7 +153,7 @@ def light_modifiers(device):
     device.fx.advanced.matrix[5,11] = newcolor # strg
 
 def light_ctrl():
-    device = device_manager.devices[0]
+    device = getKeyboard(device_manager)
     clear_light(device)
     
     light_modifiers(device)
@@ -202,13 +206,13 @@ def light_ctrl():
 
 
 def update_workspaces():
-    device = device_manager.devices[0]
+    device = getKeyboard(device_manager)
     
     fill_workspaces(device)
     device.fx.advanced.draw_fb_or()
 
 def light_super():
-    device = device_manager.devices[0]
+    device = getKeyboard(device_manager)
     clear_light(device)
     
     light_modifiers(device)
@@ -237,7 +241,7 @@ def light_super():
     set_max_brightness(device)
 
 def light_shift():
-    device = device_manager.devices[0]
+    device = getKeyboard(device_manager)
     clear_light(device)
     
     light_modifiers(device)
@@ -304,7 +308,7 @@ def light_shift():
     set_max_brightness(device)
 
 def light_alt():
-    device = device_manager.devices[0]
+    device = getKeyboard(device_manager)
     clear_light(device)
     
     light_modifiers(device)
@@ -319,7 +323,7 @@ def light_alt():
     set_max_brightness(device)
 
 def light_altshift():
-    device = device_manager.devices[0]
+    device = getKeyboard(device_manager)
     clear_light(device)
     
     light_modifiers(device)
@@ -346,13 +350,13 @@ def light_altshift():
 
 
 def light_altsuper():
-    device = device_manager.devices[0]
+    device = getKeyboard(device_manager)
     
     light_unsupported()
     device.fx.advanced.draw()
 
 def light_shiftsuper():
-    device = device_manager.devices[0]
+    device = getKeyboard(device_manager)
     clear_light(device)
     
     light_modifiers(device)
@@ -392,31 +396,31 @@ def light_shiftsuper():
     set_max_brightness(device)
 
 def light_ctrlshiftsuper():
-    device = device_manager.devices[0]
+    device = getKeyboard(device_manager)
     clear_light(device)
     
     light_unsupported()
 
 def light_ctrlsuper():
-    device = device_manager.devices[0]
+    device = getKeyboard(device_manager)
     clear_light(device)
     
     light_unsupported()
 
 def light_ctrlalt():
-    device = device_manager.devices[0]
+    device = getKeyboard(device_manager)
     clear_light(device)
     
     light_unsupported()
 
 def light_ctrlaltshift():
-    device = device_manager.devices[0]
+    device = getKeyboard(device_manager)
     clear_light(device)
     
     light_unsupported()
 
 def light_ctrlshift():
-    device = device_manager.devices[0]
+    device = getKeyboard(device_manager)
     clear_light(device)
     clear_light(device)
     light_modifiers(device)
@@ -450,7 +454,7 @@ def light_ctrlshift():
     set_max_brightness(device)
 
 def light_default():
-    device = device_manager.devices[0]
+    device = getKeyboard(device_manager)
     if reactive_effect[0]:
         reactive(device)
     elif env_effect[0]:
@@ -467,7 +471,7 @@ def light_unsupported():
     random_keys()
 
 def random_keys():
-    device = device_manager.devices[0]
+    device = getKeyboard(device_manager)
     rows, cols = device.fx.advanced.rows, device.fx.advanced.cols
 
     for row in range(rows):
@@ -481,7 +485,7 @@ def wave(device):
 
 def setreactive():
     print("set")
-    device = device_manager.devices[0]
+    device = getKeyboard(device_manager)
     reactive_effect[0] = True
     reactive(device)
 

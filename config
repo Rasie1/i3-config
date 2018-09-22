@@ -196,13 +196,13 @@ bindsym XF86MonBrightnessDown exec light -U 1
 
 bindsym $mod+F8 exec ~/Projects/yeelight-shell-scripts/yeelight-scene.sh 0 Off
 bindsym $mod+F9 exec ~/Projects/yeelight-shell-scripts/yeelight-scene.sh 0 On
-bindsym $mod+Shift+F1 exec ~/Projects/yeelight-shell-scripts/yeelight-rgb.sh 0 65536
+bindsym $mod+Shift+F1 exec ~/Projects/yeelight-shell-scripts/yeelight-rgb.sh 0 65536 && redshift -x && redshift -O 1000
 bindsym $mod+Shift+F2 exec ~/Projects/yeelight-shell-scripts/yeelight-rgb.sh 0 65537
-bindsym $mod+Shift+F3 exec ~/Projects/yeelight-shell-scripts/yeelight-colortemp.sh 0 1700
-bindsym $mod+Shift+F4 exec ~/Projects/yeelight-shell-scripts/yeelight-colortemp.sh 0 3200
-bindsym $mod+Shift+F5 exec ~/Projects/yeelight-shell-scripts/yeelight-colortemp.sh 0 4500
-bindsym $mod+Shift+F6 exec ~/Projects/yeelight-shell-scripts/yeelight-colortemp.sh 0 6500
-bindsym $mod+Shift+F7 exec ~/Projects/yeelight-shell-scripts/yeelight-rgb.sh 0 1
+bindsym $mod+Shift+F3 exec ~/Projects/yeelight-shell-scripts/yeelight-colortemp.sh 0 1700 && redshift -x && redshift -O 2500
+bindsym $mod+Shift+F4 exec ~/Projects/yeelight-shell-scripts/yeelight-colortemp.sh 0 3200 && redshift -x && redshift -O 4000
+bindsym $mod+Shift+F5 exec ~/Projects/yeelight-shell-scripts/yeelight-colortemp.sh 0 4500 && redshift -x && redshift -O 6500
+bindsym $mod+Shift+F6 exec ~/Projects/yeelight-shell-scripts/yeelight-colortemp.sh 0 6500 && redshift -x && redshift -O 10000
+bindsym $mod+Shift+F7 exec ~/Projects/yeelight-shell-scripts/yeelight-rgb.sh 0 1 && redshift -x && redshift -O 25000
 bindsym $mod+Shift+F8 exec ~/Projects/yeelight-shell-scripts/yeelight-brightness.sh 0 1
 bindsym $mod+Shift+F9 exec ~/Projects/yeelight-shell-scripts/yeelight-brightness.sh 0 25
 bindsym $mod+Shift+F10 exec ~/Projects/yeelight-shell-scripts/yeelight-brightness.sh 0 50
